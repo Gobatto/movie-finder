@@ -1,27 +1,41 @@
-const tmdbKey = '410cd8ed686e74f7848ed5a30daf3446';
-const tmdbBaseUrl = 'https://api.themoviedb.org/3/movie/550?api_key=410cd8ed686e74f7848ed5a30daf3446';
-const playBtn = document.getElementById('playBtn');
+const tmdbKey = "410cd8ed686e74f7848ed5a30daf3446";
+const tmdbBaseUrl = "https://api.themoviedb.org/3";
+const playBtn = document.getElementById("playBtn");
 
 const getGenres = async () => {
-  const genreRequestEndPoint = '/genre/movie/list';
+  const genreRequestEndpoint = "/genre/movie/list";
   const requestParams = `?api_key=${tmdbKey}`;
   const urlToFetch = `${tmdbBaseUrl}${genreRequestEndpoint}${requestParams}`;
 
   try {
     const response = await fetch(urlToFetch);
-    if (response.ok){
+    if (response.ok) {
       const jsonResponse = await response.json();
       const genres = jsonResponse.genres;
       return genres;
     }
-  } catch (error){
+  } catch (error) {
     console.log(error);
-  };
+  }
 };
 
-const getMovies = () => {
+const getMovies = async () => {
   const selectedGenre = getSelectedGenre();
+  const discoverMovieEndpoint = "/discover/movie";
+  const requestParams = `?api_keys=${tmdbKey}&with_genres=${selectGenre}`;
+  const urlToFetch = `${tmdbBaseUrl}${discoverMovieEndpoint}${requestParams}`;
+  try {
+    const response = await fetch(urlToFetch);
+    if (response.ok) {
+      const jsonResponse = await response.json();
+      console.log(jsonResponse);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
+
+getMovies();
 
 const getMovieInfo = () => {};
 
